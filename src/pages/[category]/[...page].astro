@@ -1,0 +1,68 @@
+---
+import type { GetStaticPaths } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Card from "@/components/Card.astro";
+import Footer from "@/components/Footer.astro";
+import Pagination from "@/components/Pagination.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import config from "@/config";
+
+const sections = {
+  linux: {
+    title: "Linux",
+    description: "Linux troubleshooting procedures and operational notes.",
+  },
+  ansible: {
+    title: "Ansible",
+    description: "Ansible automation patterns, roles, and best practices.",
+  },
+  projects: {
+    title: "Projects",
+    description: "Infrastructure and automation projects.",
+  },
+} as const;
+
+type Category = keyof typeof sections;
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = getSortedPosts(await getCollection("posts"));
+  const categories: Category[] = ["linux", "ansible", "projects"];
+  return categories.flatMap(category =>
+    paginate(
+      posts.filter(post => post.data.category === category),
+      { params: { category }, pageSize: config.posts.perPage }
+    )
+  );
+}) satisfies GetStaticPaths;
+
+const category = (Object.keys(sections) as Category[]).find(
+  section => section === Astro.params.category
+);
+
+if (!category) {
+  throw new Error(`Unknown article category: ${Astro.params.category}`);
+}
+
+const section = sections[category];
+const { page } = Astro.props;
+---
+
+<Layout title={`${section.title} | ${config.site.title}`}>
+  <Header />
+
+  <Breadcrumb />
+
+  <Main pageTitle={section.title} pageDesc={section.description}>
+    <ul>
+      {page.data.map(data => <Card {...data} />)}
+    </ul>
+  </Main>
+
+  <Pagination {page} />
+
+  <Footer noMarginTop={page.lastPage > 1} />
+</Layout>
