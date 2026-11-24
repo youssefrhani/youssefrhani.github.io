@@ -3,10 +3,10 @@ import { defineAstroPaperConfig } from "./src/types/config";
 export default defineAstroPaperConfig({
   site: {
     url: "https://youssefrhani.github.io/",
-    title: "Youssef Rhani | Linux, Ansible & Cloud",
+    title: "Youssef RHANI",
     description:
       "Linux troubleshooting, Ansible automation, and cloud and infrastructure projects by Youssef Rhani.",
-    author: "Youssef Rhani",
+    author: "Youssef RHANI",
     profile: "https://github.com/youssefrhani",
     ogImage: "default-og.jpg",
     lang: "en",
