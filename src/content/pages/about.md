@@ -1,9 +1,9 @@
 ---
 title: "About Youssef"
-description: "About Youssef Rhani, SysOps Engineer."
+description: "About Youssef RHANI, SysOps Engineer."
 ---
 
-I'm Youssef Rhani, a SysOps Engineer focused on Linux systems, infrastructure
+I'm Youssef RHANI, a SysOps Engineer focused on Linux systems, infrastructure
 automation, and reliable operations.
 
 ## Education
@@ -13,5 +13,3 @@ automation, and reliable operations.
 ## Certification
 
 - HashiCorp Certified: Terraform Associate
-
-TODO: K8S, RHCE
