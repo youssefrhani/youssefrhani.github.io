@@ -14,5 +14,4 @@ automation, and reliable operations.
 
 - HashiCorp Certified: Terraform Associate
 
-TODO: Add a short professional biography, relevant experience, and any
-additional education or certifications you want to share.
+TODO: K8S, RHCE

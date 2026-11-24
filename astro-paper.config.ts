@@ -33,7 +33,7 @@ export default defineAstroPaperConfig({
     { name: "github", url: "https://github.com/youssefrhani" },
     {
       name: "linkedin",
-      url: "https://www.linkedin.com/in/your-linkedin-profile/",
+      url: "https://www.linkedin.com/in/youssef-rhani",
       linkTitle: "Youssef Rhani on LinkedIn (update this link)",
     },
   ],
