@@ -245,7 +245,9 @@ const ogImage = ogImageUrl
 
   function attachCopyButtons() {
     const copyButtonLabel = "Copy";
-    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+    const codeBlocks = Array.from(
+      document.querySelectorAll("#article pre:not([data-copy-ready])")
+    );
 
     for (const codeBlock of codeBlocks) {
       const wrapper = document.createElement("div");
@@ -261,29 +263,33 @@ const ogImage = ogImageUrl
 
       const copyButton = document.createElement("button");
       copyButton.className = `copy-code absolute end-3 ${topClass} rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium`;
-      copyButton.innerHTML = copyButtonLabel;
+      copyButton.type = "button";
+      copyButton.textContent = copyButtonLabel;
+      copyButton.setAttribute("aria-label", "Copy code");
+      copyButton.setAttribute("aria-live", "polite");
       codeBlock.setAttribute("tabindex", "0");
+      codeBlock.dataset.copyReady = "true";
       codeBlock.appendChild(copyButton);
 
       codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
 
       copyButton.addEventListener("click", async () => {
-        await copyCode(codeBlock, copyButton);
+        const code = codeBlock.querySelector("code");
+        try {
+          await navigator.clipboard.writeText(code?.innerText ?? "");
+          copyButton.textContent = "Copied";
+          copyButton.setAttribute("aria-label", "Code copied");
+        } catch {
+          copyButton.textContent = "Copy failed";
+          copyButton.setAttribute("aria-label", "Copy failed");
+        }
+
+        setTimeout(() => {
+          copyButton.textContent = copyButtonLabel;
+          copyButton.setAttribute("aria-label", "Copy code");
+        }, 1500);
       });
-    }
-
-    async function copyCode(block, button) {
-      const code = block.querySelector("code");
-      const text = code?.innerText;
-
-      await navigator.clipboard.writeText(text ?? "");
-
-      button.innerText = "Copied";
-
-      setTimeout(() => {
-        button.innerText = copyButtonLabel;
-      }, 700);
     }
   }
   attachCopyButtons();
